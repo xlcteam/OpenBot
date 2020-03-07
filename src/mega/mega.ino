@@ -1,5 +1,6 @@
 #include <Wire.h>
 #include <LiquidCrystal.h>
+#define LINE_PIN 3
 extern const float pomery_pohybou[360][4];
 int spd = 150;
 byte a, b;
@@ -11,7 +12,7 @@ LiquidCrystal lcd(26, 27, 28, 29, 40, 41);
 void setup() {
   Serial.begin(9600);
   Wire.begin();
-  pinMode(3, INPUT);
+  pinMode(LINE_PIN, INPUT);
   lcd.begin(16, 2);
   butons_setup();
   NXT_setup();
@@ -19,79 +20,31 @@ void setup() {
   rpi_setup();
 }
 void loop() {
-  //TODO piny
+
   x_b = get_x_ball();
-  x_g = get_x_goal();
-  x_b *= -1;
-  if (x_b < 0) {
-    x_b = 360 - get_x_ball();
-  }
+  x_g = get_x_goal(); 
 
-  if (digitalRead(3)) {
-    Wire.requestFrom(8, 2);
-
-    a = Wire.read();
-    b = Wire.read();
-    while (Wire.available()) {
-      Wire.read();
-    }
-    if (a == 1) {
-      angle = b;
-    }
-    else {
-      angle = b * -1;
-    }
-
-    anti_angle =  180 + angle;
-    Serial.print(a);
-    Serial.print('\t');
-    Serial.println(b);
-    movement(anti_angle, 510, NXT_angle());
+  if (digitalRead(LINE_PIN)) {
+    line_event();
   }
   else {
-    // movement(90, 500, NXT_angle());
-        Serial.print("Mo");
-        Serial.print('\t');
-        Serial.print(x_b);
-        Serial.print('\t');
-        Serial.println(x_g);
-        
     if (x_g != 62) {
-      //na_mieste(x_g);
-      if (x_b != 298) {
-        //Serial.println( x_b);
+      if (x_b != -1) {
         movement(x_b, 510, x_g);
       }
       else {
-        na_mieste(x_g);
+        movement(180, 510, x_g);
       }
     } else {
-      //na_mieste(NXT_angle());
-      if (x_b != 298) {
-        //Serial.println( x_b);
+      if (x_b != -1) {
         movement(x_b, 510, NXT_angle());
       }
       else {
-        na_mieste(NXT_angle());
+        movement(180, 510, NXT_angle());
       }
     }
 
   }
-
-  // na_mieste(x_g);
-  //Serial.println( x_b);
-  /*
-    if (x_g != 70) {
-    if (x_b != 70) {
-      movement(x_b, 420, x_g);
-    }
-    else {
-      off_motors();
-    }
-    }
-    else {
-    off_motors();
-    }*/
 }
 
 void na_mieste(int vstup) {
