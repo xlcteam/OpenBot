@@ -1,5 +1,9 @@
 #include <Wire.h>
 #include <LiquidCrystal.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BNO055.h>
+#include <utility/imumaths.h>
+
 #define LINE_PIN 3
 extern const float pomery_pohybou[360][4];
 int spd = 150;
@@ -7,17 +11,22 @@ byte a, b;
 int angle;
 int anti_angle;
 int x_b, y_b, x_g, y_g;
+
 LiquidCrystal lcd(26, 27, 28, 29, 40, 41);
+Adafruit_BNO055 bno = Adafruit_BNO055(55);
 
 void setup() {
   Serial.begin(9600);
   Wire.begin();
   pinMode(LINE_PIN, INPUT);
-  lcd.begin(16, 2);
   butons_setup();
   NXT_setup();
   NXT_nort_set();
   rpi_setup();
+  LCD_setup();
+  bno.begin();
+  bno.setExtCrystalUse(true);
+  menu();
 }
 void loop() {
 

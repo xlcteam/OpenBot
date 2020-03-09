@@ -32,3 +32,9 @@ int16_t NXT_angle()
   }
   return relative_angle;
 }
+//BNO
+double BNO_angle() {
+  sensors_event_t event;
+  bno.getEvent(&event);
+  return event.orientation.x;
+}
