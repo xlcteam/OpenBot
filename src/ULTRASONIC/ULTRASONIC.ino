@@ -6,12 +6,6 @@ volatile byte Slavereceived, Slavesend;
 NewPing ultra_1(5, 5, 400);
 NewPing ultra_2(6, 6, 400);
 NewPing ultra_3(7, 7, 400);
-//23cm
-//3 left
-//20 cm
-//2 back
-//23cm
-//1right
 //0 0 0   1
 //0 0 1   2
 //0 1 0   3
@@ -36,7 +30,7 @@ ISR (SPI_STC_vect)
   received = true;
 }
 void loop() {
-  
+
   if (received) {
     SPDR = 85;
     received = false;
@@ -45,7 +39,7 @@ void loop() {
   if (ultra_1.ping_cm() > 23) {
     ultra_free[0] = 0;
   }
-  
+
   else {
     ultra_free[0] = 1;
   }
@@ -56,7 +50,5 @@ void loop() {
   else {
     ultra_free[2] = 1;
   }
-tipe = ultra_free[0]|(ultra_free[2]<<1);
-   // Serial.println(tipe);
-
+  tipe = ultra_free[0] | (ultra_free[2] << 1);
 }

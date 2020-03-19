@@ -21,7 +21,7 @@ void motor_setup() {
 }
 void motor(int a, int b, int pwm, int motor_speed) {
   if (motor_speed > 0) {
-    digitalWrite(a, HIGH);
+    digitalWrite(a, HIGH); 
     digitalWrite(b, LOW);
     analogWrite(pwm, motor_speed);
   }

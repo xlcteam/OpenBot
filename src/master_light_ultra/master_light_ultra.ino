@@ -187,7 +187,7 @@ void loop(void)
         final_angle = final_angle + 180;
       }
     }*/
-    Serial.println(final_angle);
+    //Serial.println(final_angle);
     digitalWrite(A0, HIGH);
   }
 

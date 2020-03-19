@@ -50,13 +50,9 @@ void CAM() {
     lcd.setCursor(0, 0);
     lcd.print("b_x ");
     lcd.print(get_x_ball());
-    lcd.print("b_y ");
-    lcd.print(get_y_ball());
     lcd.setCursor(0, 1);
     lcd.print("g_x ");
     lcd.print(get_x_goal());
-    lcd.print("g_y ");
-    lcd.print(get_y_goal());
     delay(30);
     lcd.clear();
   }
@@ -121,6 +117,54 @@ void MOT() {
   }
   lcd.clear();
 }
+void KIC() {
+  while (!buton_read(7)) {
+    lcd.setCursor(0, 0);
+    lcd.print("kick test");
+    lcd.setCursor(0, 1);
+    lcd.print("press buton");
+    if (buton_read(3)) {
+      kick();
+      delay(1500);
+    }
+  }
+  lcd.clear();
+}
+void DRI() {
+  int dribler_speed = 100;
+  while (!buton_read(7)) {
+
+    lcd.setCursor(0, 0);
+    lcd.print("speed:    ");
+    lcd.setCursor(7, 0);
+    lcd.print(dribler_speed);
+    lcd.setCursor(0, 1);
+    lcd.print("press buton");
+    if (buton_read(1)) {
+      rotate_motor(5, dribler_speed );
+    }
+    else {
+      if (buton_read(6)) {
+        rotate_motor(5, -dribler_speed );
+      }
+      else {
+        rotate_motor(5, 0);
+      }
+    }
+    if (buton_read(2)) {
+      dribler_speed++;
+      if (dribler_speed > 255)dribler_speed = 255;
+      delay(10);
+    }
+    if (buton_read(5)) {
+
+      dribler_speed--;
+      if (dribler_speed < 0)dribler_speed = 0;
+      delay(10);
+    }
+  }
+  lcd.clear();
+}
 void screen_1() {
   while (screen == 1) {
     select();
@@ -133,7 +177,7 @@ void screen_1() {
           return;
         }
         else if (arr_pos == 4) {
-
+          KIC();
         }
         else if (arr_pos == 8) {
 
@@ -193,7 +237,7 @@ void screen_3() {
       lcd.clear();
       while (buton_read(4))
         if (arr_pos == 0) {
-
+          DRI();
         }
         else if (arr_pos == 4) {
 

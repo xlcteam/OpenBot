@@ -16,13 +16,13 @@ int get_x_ball() {
     value = Serial3.parseInt();
   while (Serial3.available())Serial3.read();
   digitalWrite(30, LOW);
- // Serial.println(value);
-  if(value==-1){
-    return -1;
-    }
-    else{
-      return value > 176 ? -((176 - value) / 2.8) :  360-(125-(176 + value) / 2.8);
-      }  
+  //Serial.println(value);
+  if (value == -1) {
+    return -1000;
+  }
+  else {
+    return value > 176 ? -((176 - value) / CAM_COEFICIENT) :   360-((176 - value) / CAM_COEFICIENT);
+  }
 }
 int get_y_ball() {
   int value;
@@ -31,7 +31,7 @@ int get_y_ball() {
     value = Serial3.parseInt();
   while (Serial3.available())Serial3.read();
   digitalWrite(31, LOW);
-  return (176 - value) / 2.8 ;
+  return (176 - value) / CAM_COEFICIENT ;
 }
 int get_x_goal() {
   int value;
@@ -40,7 +40,12 @@ int get_x_goal() {
     value = Serial3.parseInt();
   while (Serial3.available())Serial3.read();
   digitalWrite(39, LOW);
-  return (176 - value) / 2.8;
+  if (value == -1) {
+    return -1000;
+  }
+  else {
+    return (176 - value) / CAM_COEFICIENT;
+  }
 }
 int get_y_goal() {
   int value;
@@ -49,5 +54,5 @@ int get_y_goal() {
     value = Serial3.parseInt();
   while (Serial3.available())Serial3.read();
   digitalWrite(38, LOW);
-  return (176 - value) / 2.8;
+  return (176 - value) / CAM_COEFICIENT;
 }
