@@ -7,6 +7,7 @@
 #define LINE_PIN 3
 #define KICK_PIN 9
 #define KICK_TIME 10
+#define MAX_BALL_SPD 340
 #define CAM_COEFICIENT 1.8
 extern const float pomery_pohybou[360][4];
 int spd = 150;
@@ -43,18 +44,29 @@ void loop() {
   else {
     dribler++;
   }
-  digitalWrite(KICK_PIN, LOW);
+  digitalWrite(KICK_PIN, 0);
+  if ((x_b > 320 && x_b < 360) || (x_b > 0 && x_b < 40)) {
+    rotate_motor(5, 255);
+  }
+  else {
+    rotate_motor(5, 0 );
+  }
   if (digitalRead(LINE_PIN)) {
     line_event();
   }
   else {
     if (x_g != -1000) {
       if (x_b != -1000) {
-        if (dribler < 200) {
-          movement(x_b, 510, x_g);
+        if (dribler < 1000 || x_g > 10 || x_g < -10) {
+          if (dribler > 200 && (x_g > 15 || x_g < -15)) {
+            na_mieste(x_g);
+          }
+          else {
+            movement(x_b, 510, x_g);
+          }
         }
         else {
-          kick(); 
+          kick();
           dribler = 0;
         }
       }
@@ -69,6 +81,7 @@ void loop() {
         movement(180, 510, NXT_angle());
       }
     }
+
   }
 
 }
@@ -81,16 +94,15 @@ void kick() {
   digitalWrite(KICK_PIN, LOW);
 }
 void na_mieste(int vstup) {
-  int16_t speeds[4] = {0, 0, 0, 0};
-  int compensation;
-  compensation = PID(speeds, 0, vstup);
-  rotate_motor(1, speeds[0] + compensation);
-  rotate_motor(2, speeds[1] + compensation);
-  rotate_motor(3, speeds[2] + compensation);
-  rotate_motor(4, speeds[3] + compensation);
+  static int rev;
+  rev = vstup > 0 ? rev = -1 : rev = 1;
+  rotate_motor(1, MAX_BALL_SPD * rev);
+  rotate_motor(2, MAX_BALL_SPD * rev);
+  rotate_motor(3, MAX_BALL_SPD * rev);
+  rotate_motor(4, MAX_BALL_SPD * rev);
 }
 void movement(int smer , int rychlost , int feedback) {
-  smer = (smer + 90) % 360; //ja viem ze som to mohol prehodit v poli //TODO
+  smer = (smer + 90) % 360; //prehodit v poli //TODO
   int16_t speeds[4] = {pomery_pohybou[smer][0]*rychlost, pomery_pohybou[smer][1]*rychlost, pomery_pohybou[smer][2]*rychlost, pomery_pohybou[smer][3]*rychlost};
   int compensation;
   compensation = PID(speeds, 0, feedback);
@@ -107,8 +119,8 @@ void off_motors() {
   rotate_motor(3, 0);
   rotate_motor(4, 0);
 }
-void vpred(int vstup) {
-  int16_t speeds[4] = { -spd, -spd, spd, spd};
+void na_mieste_pid(int vstup) {
+  int16_t speeds[4] = { 0, 0,0,0};
   int compensation;
   compensation = PID(speeds, 0, vstup);
   rotate_motor(1, speeds[0] + compensation);

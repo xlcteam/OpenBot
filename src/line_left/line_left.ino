@@ -104,6 +104,6 @@ void loop() {
     Serial.print(sensorArr[2]);
     Serial.print('\t');
     Serial.print(sensorArr[3]);
-    Serial.print('\t');
+    Serial.print('\t ');
     Serial.println(sensorArr[4]);*/
 }

@@ -1,7 +1,7 @@
 /*
   1 STR KIC PEN MOT
   2 LIN NXT BNO CAM
-  3 DRI ??? ??? ???
+  3 DRI NAB NAR ???
 
 */
 int screen = 1;
@@ -91,25 +91,25 @@ void MOT() {
     lcd.setCursor(0, 1);
     lcd.print("press buton");
     if (buton_read(1)) {
-      rotate_motor(1, 100);
+      rotate_motor(1, 255);
     }
     else {
       rotate_motor(1, 0);
     }
     if (buton_read(2)) {
-      rotate_motor(2, 100);
+      rotate_motor(2, 255);
     }
     else {
       rotate_motor(2, 0);
     }
     if (buton_read(5)) {
-      rotate_motor(3, 100);
+      rotate_motor(3, 255);
     }
     else {
       rotate_motor(3, 0);
     }
     if (buton_read(6)) {
-      rotate_motor(4, 100);
+      rotate_motor(4, 255);
     }
     else {
       rotate_motor(4, 0);
@@ -162,6 +162,18 @@ void DRI() {
       if (dribler_speed < 0)dribler_speed = 0;
       delay(10);
     }
+  }
+  lcd.clear();
+}
+void NAB() { 
+  while (!buton_read(7)) {   
+    lcd.setCursor(0, 0);
+    lcd.print("goal:    ");
+    lcd.setCursor(7, 0);
+    lcd.print(get_x_goal());
+    lcd.setCursor(0, 1);
+    lcd.print("runing...");
+    na_mieste_pid(get_x_goal());
   }
   lcd.clear();
 }
@@ -240,7 +252,7 @@ void screen_3() {
           DRI();
         }
         else if (arr_pos == 4) {
-
+          NAB();
         }
         else if (arr_pos == 8) {
 
@@ -252,7 +264,7 @@ void screen_3() {
     }
     else {
       lcd.setCursor(0, 0);
-      lcd.print("DRI ??? ??? ???");
+      lcd.print("DRI NAB NAR ???");
       lcd.setCursor(13, 1);
       lcd.print("3/3");
       lcd.setCursor(arr_pos, 1);
