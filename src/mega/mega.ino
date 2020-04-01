@@ -71,7 +71,7 @@ void loop() {
         }
       }
       else {
-        movement(180, 510, x_g);
+        movement(180, 510, NXT_angle());
       }
     } else {
       if (x_b != -1000) {
@@ -83,7 +83,6 @@ void loop() {
     }
 
   }
-
 }
 void kick() {
   rotate_motor(5, 0);
@@ -106,7 +105,6 @@ void movement(int smer , int rychlost , int feedback) {
   int16_t speeds[4] = {pomery_pohybou[smer][0]*rychlost, pomery_pohybou[smer][1]*rychlost, pomery_pohybou[smer][2]*rychlost, pomery_pohybou[smer][3]*rychlost};
   int compensation;
   compensation = PID(speeds, 0, feedback);
-
 
   rotate_motor(1, speeds[0] + compensation);
   rotate_motor(2, speeds[1] + compensation);
