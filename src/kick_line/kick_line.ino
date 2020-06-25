@@ -1,4 +1,4 @@
-#include<SPI.h>
+ #include<SPI.h>
 volatile boolean received;
 volatile byte Slavereceived, Slavesend;
 byte buttonvalue;
