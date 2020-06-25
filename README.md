@@ -1,5 +1,10 @@
-XLC team open robot
-2020
+This is a robot for the Robocup junior open 2020 competition created by the XLC-Innovation team.
 
-other large files:
-https://drive.google.com/open?id=1bh6ijmGslZOjA8TC2EKqgaDyojV14-vL
+Poster:
+https://drive.google.com/file/d/1mmYTOxWSNOsuLN-UX9sywHZmTKlaXygj/view?usp=sharing
+Vydeo:
+
+3D model:
+https://grabcad.com/library/robocup-soccer-open-xlc-1
+Dataset:
+https://www.kaggle.com/jakubgal/robocup-junior-open-xlc
