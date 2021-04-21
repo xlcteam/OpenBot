@@ -1,9 +1,8 @@
-This is a robot for the Robocup junior open 2020 competition created by the XLC-Innovation team.
+This is a robot for the Robocup junior open 2020 competition created by Jakub Gál.
+ISEF video:
+https://www.youtube.com/watch?v=6aQB4FLPs9k
 
-Poster:
-https://drive.google.com/file/d/1mmYTOxWSNOsuLN-UX9sywHZmTKlaXygj/view?usp=sharing
-
-Vydeo:
+Robocup video:
 https://vimeo.com/432606767
 
 3D model:
